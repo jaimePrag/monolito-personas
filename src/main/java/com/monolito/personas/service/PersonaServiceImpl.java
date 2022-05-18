@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class PersonaService {
+public class PersonaServiceImpl implements IPersonaService {
     @Autowired
     private PersonaRepository personaRepository;
 
@@ -20,7 +20,7 @@ public class PersonaService {
     }
 
     @Transactional(readOnly = true)
-    public Optional<Persona> findById(int id){
+    public Optional<Persona> findById(long id){
         return personaRepository.findById(id);
     }
 
@@ -30,7 +30,7 @@ public class PersonaService {
     }
 
     @Transactional
-    public boolean delete(int id) {
+    public boolean delete(long id) {
         return findById(id).map((persona) -> {
             personaRepository.deleteById(id);
             return true;

@@ -1,13 +1,14 @@
 package com.monolito.personas.controller;
 
 import com.monolito.personas.entity.Persona;
-import com.monolito.personas.service.PersonaService;
+import com.monolito.personas.service.IPersonaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -19,7 +20,7 @@ import java.util.stream.Collectors;
 public class PersonaController {
 
     @Autowired
-    PersonaService personaService;
+    IPersonaService personaService;
 
     @GetMapping()
     public List<Persona> index() {
@@ -27,7 +28,7 @@ public class PersonaController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<?> show(@PathVariable int id) {
+    public ResponseEntity<?> show(@PathVariable long id) {
         Optional<Persona> persona;
         Map<String, Object> response = new HashMap<>();
 
@@ -40,7 +41,7 @@ public class PersonaController {
     }
 
     @PostMapping()
-    public ResponseEntity<?> store(@RequestBody Persona persona, BindingResult result) {
+    public ResponseEntity<?> store(@Valid @RequestBody Persona persona, BindingResult result) {
         Map<String, Object> response = new HashMap<>();
 
         if (result.hasErrors()) {
@@ -59,9 +60,8 @@ public class PersonaController {
         return new ResponseEntity<Map<String, Object>>(response, HttpStatus.CREATED);
     }
 
-
     @PutMapping("/{id}")
-    public ResponseEntity<?> update(@PathVariable int id, @RequestBody Persona persona, BindingResult result) {
+    public ResponseEntity<?> update(@PathVariable long id, @Valid @RequestBody Persona persona, BindingResult result) {
         Map<String, Object> response = new HashMap<>();
 
         if (result.hasErrors()) {
@@ -88,7 +88,7 @@ public class PersonaController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> destroy(@PathVariable int id) {
+    public ResponseEntity<?> destroy(@PathVariable long id) {
         Map<String, Object> response = new HashMap<>();
         if (!personaService.delete(id)) {
             response.put("mensaje", "No se encontro la persona con id " + id);

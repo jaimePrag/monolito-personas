@@ -1,0 +1,1 @@
+insert into personas(nombres, apellidos, edad, tipo_identificacion, identificacion, ciudad_nacimiento) values ('jaime', 'ortiz aranda', 26, 'CC', '1114390142', 'restrepo');
