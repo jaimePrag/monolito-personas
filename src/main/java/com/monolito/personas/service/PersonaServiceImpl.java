@@ -1,6 +1,8 @@
 package com.monolito.personas.service;
 
+import com.monolito.personas.dto.Person;
 import com.monolito.personas.entity.Persona;
+import com.monolito.personas.mapper.PersonMapper;
 import com.monolito.personas.repository.PersonaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -10,23 +12,29 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class PersonaServiceImpl implements IPersonaService {
+public class PersonaServiceImpl implements IPersonService {
+
     @Autowired
     private PersonaRepository personaRepository;
 
+    @Autowired
+    private PersonMapper mapper;
+
     @Transactional(readOnly = true)
-    public List<Persona> getAll(){
-        return (List<Persona>) personaRepository.findAll();
+    public List<Person> getAll() {
+        List<Persona> personas = (List<Persona>) personaRepository.findAll();
+        return mapper.toPersons(personas);
     }
 
     @Transactional(readOnly = true)
-    public Optional<Persona> findById(long id){
-        return personaRepository.findById(id);
+    public Optional<Person> findById(long id) {
+        return personaRepository.findById(id).map(persona -> mapper.toPerson(persona));
     }
 
     @Transactional
-    public Persona save(Persona persona) {
-        return personaRepository.save(persona);
+    public Person save(Person person) {
+        Persona persona = mapper.toPersona(person);
+        return mapper.toPerson(personaRepository.save(persona));
     }
 
     @Transactional

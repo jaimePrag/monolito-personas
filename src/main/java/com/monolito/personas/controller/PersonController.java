@@ -1,7 +1,8 @@
 package com.monolito.personas.controller;
 
-import com.monolito.personas.entity.Persona;
-import com.monolito.personas.service.IPersonaService;
+import com.monolito.personas.dto.Image;
+import com.monolito.personas.dto.Person;
+import com.monolito.personas.service.IPersonService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,32 +17,33 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping("/personas")
-public class PersonaController {
+@RequestMapping("/persons")
+public class PersonController {
 
     @Autowired
-    IPersonaService personaService;
+    IPersonService personaService;
 
     @GetMapping()
-    public List<Persona> index() {
+    public List<Person> index() {
         return personaService.getAll();
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<?> show(@PathVariable long id) {
-        Optional<Persona> persona;
+        Optional<Person> person;
         Map<String, Object> response = new HashMap<>();
 
-        persona = personaService.findById(id);
-        if (!persona.isPresent()) {
+        person = personaService.findById(id);
+        if (!person.isPresent()) {
             response.put("mensaje", String.format("No se encontro la persona con el ID = %d", id));
             return new ResponseEntity<Map<String, Object>>(response, HttpStatus.NOT_FOUND);
         }
-        return new ResponseEntity<Persona>(persona.get(), HttpStatus.OK);
+
+        return new ResponseEntity<Person>(person.get(), HttpStatus.OK);
     }
 
     @PostMapping()
-    public ResponseEntity<?> store(@Valid @RequestBody Persona persona, BindingResult result) {
+    public ResponseEntity<?> store(@Valid @RequestBody Person persona, BindingResult result) {
         Map<String, Object> response = new HashMap<>();
 
         if (result.hasErrors()) {
@@ -54,14 +56,14 @@ public class PersonaController {
             return new ResponseEntity<Map<String, Object>>(response, HttpStatus.BAD_REQUEST);
         }
 
-        Persona nuevaPersona = personaService.save(persona);
-        response.put("mensaje", String.format("Se ha creado la persona %s con éxito", nuevaPersona.getNombres()));
+        Person nuevaPersona = personaService.save(persona);
+        response.put("mensaje", String.format("Se ha creado la persona %s con éxito", nuevaPersona.getNames()));
         response.put("persona", nuevaPersona);
         return new ResponseEntity<Map<String, Object>>(response, HttpStatus.CREATED);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<?> update(@PathVariable long id, @Valid @RequestBody Persona persona, BindingResult result) {
+    public ResponseEntity<?> update(@PathVariable long id, @Valid @RequestBody Person persona, BindingResult result) {
         Map<String, Object> response = new HashMap<>();
 
         if (result.hasErrors()) {
@@ -74,7 +76,7 @@ public class PersonaController {
             return new ResponseEntity<Map<String, Object>>(response, HttpStatus.BAD_REQUEST);
         }
 
-        Optional<Persona> oldPersona = personaService.findById(id);
+        Optional<Person> oldPersona = personaService.findById(id);
         if (!oldPersona.isPresent()) {
             response.put("mensaje", String.format("No se encontro la persona con el ID = %d", id));
             return new ResponseEntity<Map<String, Object>>(response, HttpStatus.NOT_FOUND);
@@ -82,7 +84,7 @@ public class PersonaController {
 
         persona.setId(id);
         personaService.save(persona);
-        response.put("mensaje", String.format("Se ha actualizado la persona %s con éxito", persona.getNombres()));
+        response.put("mensaje", String.format("Se ha actualizado la persona %s con éxito", persona.getNames()));
         response.put("persona", persona);
         return new ResponseEntity<Map<String, Object>>(response, HttpStatus.OK);
     }

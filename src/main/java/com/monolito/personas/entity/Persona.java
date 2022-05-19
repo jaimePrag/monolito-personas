@@ -7,7 +7,7 @@ import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
-import java.util.List;
+import org.springframework.lang.Nullable;
 
 @Entity
 @Table(name = "personas")
@@ -38,7 +38,7 @@ public class Persona {
     @Column(name = "ciudad_nacimiento")
     private String ciudadNacimiento;
 
-    @OneToMany(mappedBy = "persona")
-    private List<Imagen> imagenes;
-    
+    @OneToOne(fetch = FetchType.EAGER)
+    @Nullable
+    private Imagen imagen;
 }

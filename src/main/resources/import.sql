@@ -1,1 +1,2 @@
-insert into personas(nombres, apellidos, edad, tipo_identificacion, identificacion, ciudad_nacimiento) values ('jaime', 'ortiz aranda', 26, 'CC', '1114390142', 'restrepo');
+INSERT INTO `pragma_db`.`imagenes` (`data`, `imagen_nombre`) VALUES (0x2E2E, 'jaime.jpg');
+INSERT INTO `pragma_db`.`personas` (`apellidos`, `ciudad_nacimiento`, `edad`, `identificacion`, `nombres`, `tipo_identificacion`) VALUES ('aranda', 'restrepo', '22', '1114', 'jaime', 'CC', 1);

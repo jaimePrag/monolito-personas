@@ -1,6 +1,5 @@
 package com.monolito.personas.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -15,16 +14,14 @@ public class Imagen {
     private long id;
 
     @Column(columnDefinition = "varchar(255)")
-    @NotNull
-    private String nombre;
+    private String imagenNombre;
 
     @Lob
     @NotNull
     private byte[] data;
 
-    @ManyToOne()
-    @JoinColumn(name = "persona_id")
-    @JsonIgnore
-    @NotNull
-    private Persona persona;
+    // @ManyToOne(fetch = FetchType.LAZY)
+    // @JoinColumn(name = "persona_id")
+    // @NotNull
+    // private Persona persona;
 }
