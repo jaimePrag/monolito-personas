@@ -1,17 +1,19 @@
 package com.monolito.personas.service;
 
 import java.util.List;
-import java.util.Optional;
 
 import com.monolito.personas.dto.Image;
+import com.monolito.personas.dto.Person;
+
+import org.springframework.web.multipart.MultipartFile;
 
 public interface IImageService {
 
   public List<Image> getAll();
 
-  public Optional<Image> findById(long id);
+  public Image findById(Long id);
 
-  public Image save(Image imagen);
+  public Image save(MultipartFile file, Person person);
 
-  public boolean delete(long id);
+  public void delete(Long id);
 }

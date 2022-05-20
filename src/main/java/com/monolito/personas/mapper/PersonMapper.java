@@ -2,7 +2,6 @@ package com.monolito.personas.mapper;
 
 import java.util.List;
 
-import com.monolito.personas.dto.Image;
 import com.monolito.personas.dto.Person;
 import com.monolito.personas.entity.Persona;
 

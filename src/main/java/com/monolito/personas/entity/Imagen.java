@@ -11,8 +11,9 @@ import javax.validation.constraints.NotNull;
 public class Imagen {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Long id;
 
+    @NotNull
     @Column(columnDefinition = "varchar(255)")
     private String imagenNombre;
 
@@ -20,8 +21,11 @@ public class Imagen {
     @NotNull
     private byte[] data;
 
-    // @ManyToOne(fetch = FetchType.LAZY)
-    // @JoinColumn(name = "persona_id")
-    // @NotNull
-    // private Persona persona;
+    @OneToOne(mappedBy = "imagen")
+    private Persona persona;
+
+    @PreRemove()
+    public void setImageIdNull() {
+        this.persona.setImagen(null);
+    }
 }

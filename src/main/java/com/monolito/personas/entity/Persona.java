@@ -3,42 +3,43 @@ package com.monolito.personas.entity;
 import lombok.Data;
 
 import javax.persistence.*;
-import javax.validation.constraints.Min;
-import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
 import org.springframework.lang.Nullable;
 
 @Entity
-@Table(name = "personas")
 @Data
+@Table(name = "personas", indexes = {
+        @Index(columnList = "tipo_identificacion, identificacion"),
+        @Index(columnList = "edad") })
 public class Persona {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Long id;
 
     @NotNull
-    @NotBlank
     @Column(columnDefinition = "varchar(255)")
     private String nombres;
 
     @Column(columnDefinition = "varchar(255)")
     private String apellidos;
 
+    @NotNull
     @Column(name = "tipo_identificacion")
     private String tipoIdentificacion;
 
+    @NotNull
     @Column()
     private String identificacion;
 
     @NotNull
-    @Min(value = 1)
     private int edad;
 
     @Column(name = "ciudad_nacimiento")
     private String ciudadNacimiento;
 
-    @OneToOne(fetch = FetchType.EAGER)
     @Nullable
+    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "imagen_id")
     private Imagen imagen;
 }
