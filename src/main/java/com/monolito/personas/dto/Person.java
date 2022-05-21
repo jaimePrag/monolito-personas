@@ -4,6 +4,8 @@ import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import lombok.Data;
 
 @Data
@@ -29,5 +31,8 @@ public class Person {
 
 	private String birthCity;
 
-	private Image image;
+	@JsonIgnore
+	private String imageId;
+
+	private byte[] image;
 }

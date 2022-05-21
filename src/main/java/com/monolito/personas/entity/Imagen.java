@@ -1,31 +1,20 @@
 package com.monolito.personas.entity;
 
+import org.bson.types.Binary;
+import org.springframework.data.mongodb.core.mapping.Document;
+
 import lombok.Data;
 
-import javax.persistence.*;
-import javax.validation.constraints.NotNull;
+import javax.persistence.Id;
 
-@Entity
-@Table(name = "imagenes")
+
 @Data
+@Document(collection = "imagenes")
 public class Imagen {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private String id;
 
-    @NotNull
-    @Column(columnDefinition = "varchar(255)")
-    private String imagenNombre;
+    private String nombre;
 
-    @Lob
-    @NotNull
-    private byte[] data;
-
-    @OneToOne(mappedBy = "imagen")
-    private Persona persona;
-
-    @PreRemove()
-    public void setImageIdNull() {
-        this.persona.setImagen(null);
-    }
+    private Binary data;
 }

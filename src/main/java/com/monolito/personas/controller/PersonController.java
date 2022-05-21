@@ -2,16 +2,19 @@ package com.monolito.personas.controller;
 
 import com.monolito.personas.dto.Person;
 import com.monolito.personas.exception.FieldErrorException;
+import com.monolito.personas.exception.ImageRequiredException;
 import com.monolito.personas.service.IPersonService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/persons")
@@ -62,6 +65,18 @@ public class PersonController {
         personService.delete(id); // throw an exception if it doesn't exist
         Map<String, Object> response = Map.of("message", "la persona ha sido eliminada con éxito");
         return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+
+    @PostMapping("/{id}/images/upload")
+    public ResponseEntity<?> upload(
+        @RequestParam("archivo") Optional<MultipartFile> archivo,
+        @PathVariable("id") Long personId) {
+      Person person = personService.findById(personId);
+      MultipartFile file = archivo.orElseThrow(() -> new ImageRequiredException());
+      personService.saveImage(file, person);
+      Map<String, Object> response = Map.of("message", "La imagen se ha subido correctamente");
+      return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
 }

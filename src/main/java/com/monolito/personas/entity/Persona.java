@@ -2,10 +2,12 @@ package com.monolito.personas.entity;
 
 import lombok.Data;
 
+
+
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Null;
 
-import org.springframework.lang.Nullable;
 
 @Entity
 @Data
@@ -38,8 +40,7 @@ public class Persona {
     @Column(name = "ciudad_nacimiento")
     private String ciudadNacimiento;
 
-    @Nullable
-    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(name = "imagen_id")
-    private Imagen imagen;
+    @Null
+    @Column(name = "imagen_id")
+    private String imagenId;
 }

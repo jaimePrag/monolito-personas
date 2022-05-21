@@ -10,7 +10,7 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Mappings;
 
-@Mapper(componentModel = "spring", uses = { ImageMapper.class })
+@Mapper(componentModel = "spring")
 public interface PersonMapper {
     @Mappings({
             @Mapping(source = "id", target = "id"),
@@ -20,7 +20,7 @@ public interface PersonMapper {
             @Mapping(source = "identificacion", target = "identification"),
             @Mapping(source = "edad", target = "age"),
             @Mapping(source = "ciudadNacimiento", target = "birthCity"),
-            @Mapping(source = "imagen", target = "image")
+            @Mapping(source = "imagenId", target = "imageId")
     })
     Person toPerson(Persona persona);
 

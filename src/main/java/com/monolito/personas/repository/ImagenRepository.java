@@ -2,15 +2,8 @@ package com.monolito.personas.repository;
 
 import com.monolito.personas.entity.Imagen;
 
-import org.springframework.data.jpa.repository.Modifying;
-import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.CrudRepository;
-import org.springframework.stereotype.Repository;
+import org.springframework.data.mongodb.repository.MongoRepository;
 
-@Repository
-public interface ImagenRepository extends CrudRepository<Imagen, Long> {
+public interface ImagenRepository extends MongoRepository<Imagen, String> {
 
-  @Modifying
-  @Query(value = "update Persona p set imagen_id = ?1 where p.id = ?2")
-  void associateImagetoPerson(Long imageId, Long personId);
 }
