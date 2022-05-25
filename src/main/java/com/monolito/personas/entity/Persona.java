@@ -1,7 +1,6 @@
 package com.monolito.personas.entity;
 
-import lombok.Data;
-
+import lombok.*;
 
 
 import javax.persistence.*;
@@ -10,10 +9,13 @@ import javax.validation.constraints.Null;
 
 
 @Entity
-@Data
+@Setter
+@Getter
+@AllArgsConstructor
+@NoArgsConstructor
 @Table(name = "personas", indexes = {
         @Index(columnList = "tipo_identificacion, identificacion"),
-        @Index(columnList = "edad") })
+        @Index(columnList = "edad")})
 public class Persona {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -37,6 +39,7 @@ public class Persona {
     @NotNull
     private int edad;
 
+    @NotNull
     @Column(name = "ciudad_nacimiento")
     private String ciudadNacimiento;
 

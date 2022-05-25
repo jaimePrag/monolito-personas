@@ -42,7 +42,7 @@ public class PersonController {
         Person nuevaPersona = personService.save(person);
         Map<String, Object> response = Map.of(
                 "message", String.format("Se ha creado la persona %s con éxito", person.getNames()),
-                "persona", nuevaPersona);
+                "person", nuevaPersona);
         return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
 
@@ -51,12 +51,11 @@ public class PersonController {
         if (result.hasErrors()) {
             throw new FieldErrorException(result);
         }
-        personService.findById(id); // throw an exception if it doesn't exist
         person.setId(id);
         Person personUpdated = personService.save(person);
         Map<String, Object> response = Map.of(
                 "message", String.format("Se ha actualizado la persona %s con éxito", person.getNames()),
-                "persona", personUpdated);
+                "person", personUpdated);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
@@ -67,16 +66,14 @@ public class PersonController {
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
-
     @PostMapping("/{id}/images/upload")
     public ResponseEntity<?> upload(
-        @RequestParam("archivo") Optional<MultipartFile> archivo,
-        @PathVariable("id") Long personId) {
-      Person person = personService.findById(personId);
-      MultipartFile file = archivo.orElseThrow(() -> new ImageRequiredException());
-      personService.saveImage(file, person);
-      Map<String, Object> response = Map.of("message", "La imagen se ha subido correctamente");
-      return new ResponseEntity<>(response, HttpStatus.OK);
+            @RequestParam("archivo") Optional<MultipartFile> archivo,
+            @PathVariable("id") Long personId) {
+        Person person = personService.findById(personId);
+        MultipartFile file = archivo.orElseThrow(() -> new ImageRequiredException());
+        personService.saveImage(file, person);
+        Map<String, Object> response = Map.of("message", "La imagen se ha subido correctamente");
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
-
 }

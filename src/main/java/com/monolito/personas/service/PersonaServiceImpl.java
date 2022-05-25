@@ -10,6 +10,7 @@ import com.monolito.personas.mapper.PersonMapper;
 import com.monolito.personas.repository.ImagenRepository;
 import com.monolito.personas.repository.PersonaRepository;
 
+import com.sun.tools.jconsole.JConsoleContext;
 import org.bson.BsonBinarySubType;
 import org.bson.types.Binary;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,9 +38,9 @@ public class PersonaServiceImpl implements IPersonService {
     @Transactional(readOnly = true)
     public List<Person> getAll() {
         List<Person> persons = mapper.toPersons((List<Persona>) personaRepository.findAll());
-         for (Person person : persons) {
-             person.setImage(getImageFileFromImageId(person.getImageId()));
-         }
+        for (Person person : persons) {
+            person.setImage(getImageFileFromImageId(person.getImageId()));
+        }
         return persons;
     }
 
@@ -55,7 +56,12 @@ public class PersonaServiceImpl implements IPersonService {
     @Transactional
     public Person save(Person person) {
         Persona persona = mapper.toPersona(person);
-        return mapper.toPerson(personaRepository.save(persona));
+        if (person.getId() != null) {
+            persona.setImagenId(findById(person.getId()).getImageId());
+        }
+        person =  mapper.toPerson(personaRepository.save(persona));
+        person.setImage(getImageFileFromImageId(person.getImageId()));
+        return person;
     }
 
     @Transactional
@@ -83,11 +89,15 @@ public class PersonaServiceImpl implements IPersonService {
         personaRepository.associateImagetoPerson(imagen.getId(), person.getId());
     }
 
-    private byte[] getImageFileFromImageId(String imagenId) {
+    public byte[] getImageFileFromImageId(String imagenId) {
         return Optional.ofNullable(imagenId)
                 .flatMap(imgId -> imagenRepository.findById(imgId))
                 .map(img -> img.getData().getData())
                 .orElse(null);
+    }
+
+    public void setMapper(PersonMapper mapper) {
+        this.mapper = mapper;
     }
 
 }

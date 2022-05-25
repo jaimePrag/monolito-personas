@@ -10,7 +10,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface PersonaRepository extends CrudRepository<Persona, Long> {
 
-  @Modifying
-  @Query(value = "update Persona p set imagen_id = ?1 where p.id = ?2")
-  void associateImagetoPerson(String imageId, Long personId);
+    @Modifying
+    @Query(value = "update Persona p set imagen_id = ?1 where p.id = ?2")
+    void associateImagetoPerson(String imageId, Long personId);
 }

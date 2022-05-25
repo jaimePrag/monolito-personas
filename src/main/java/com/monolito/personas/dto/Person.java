@@ -7,32 +7,37 @@ import javax.validation.constraints.NotBlank;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 
-@Data
+@Getter
+@Setter
+@ToString
 public class Person {
 
-	private Long id;
+    private Long id;
 
-	@NotBlank
-	private String names;
+    @NotBlank
+    private String names;
 
-	private String surnames;
+    private String surnames;
 
-	@NotBlank
-	private String identificationType;
+    @NotBlank
+    private String identificationType;
 
-	@NotBlank
-	private String identification;
+    @NotBlank
+    private String identification;
 
-	@Min(value = 1)
-	@Max(value = 120)
-	@NotBlank
-	private String age;
+    @Min(value = 1)
+    @Max(value = 120)
+    private int age;
 
-	private String birthCity;
+    @NotBlank
+    private String birthCity;
 
-	@JsonIgnore
-	private String imageId;
+    @JsonIgnore
+    private String imageId;
 
-	private byte[] image;
+    private byte[] image;
 }

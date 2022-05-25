@@ -1,14 +1,16 @@
 package com.monolito.personas.entity;
 
+import lombok.*;
 import org.bson.types.Binary;
 import org.springframework.data.mongodb.core.mapping.Document;
-
-import lombok.Data;
 
 import javax.persistence.Id;
 
 
-@Data
+@Setter
+@Getter
+@NoArgsConstructor
+@AllArgsConstructor
 @Document(collection = "imagenes")
 public class Imagen {
     @Id

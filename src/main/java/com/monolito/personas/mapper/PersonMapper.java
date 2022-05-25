@@ -5,12 +5,10 @@ import java.util.List;
 import com.monolito.personas.dto.Person;
 import com.monolito.personas.entity.Persona;
 
-import org.mapstruct.InheritInverseConfiguration;
-import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
-import org.mapstruct.Mappings;
+import org.mapstruct.*;
 
-@Mapper(componentModel = "spring")
+@Mapper(componentModel = "spring", injectionStrategy = InjectionStrategy.CONSTRUCTOR)
+
 public interface PersonMapper {
     @Mappings({
             @Mapping(source = "id", target = "id"),
